@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="assets_backend" name="sale_product_set assets"
+              inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+
+            <script type="text/javascript"
+                    src="/sale_product_set/static/src/js/add_product_set.js"></script>
+            <script type="text/javascript"
+                    src="/sale_product_set/static/src/js/add_set_controller.js"></script>
+        </xpath>
+    </template>
+
+</odoo>

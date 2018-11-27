@@ -11,11 +11,14 @@ class ProductSetAd(models.TransientModel):
     _description = "Wizard model to add product set into a quotation"
 
     product_set_id = fields.Many2one(
-        'product.set', 'Product set', required=True)
+        'product.set', 'Product set', required=True
+    )
     quantity = fields.Float(
         string='Quantity',
-        digits=dp.get_precision('Product Unit of Measure'), required=True,
-        default=1)
+        digits=dp.get_precision('Product Unit of Measure'),
+        required=True,
+        default=1,
+    )
 
     @api.multi
     def add_set(self):
@@ -31,18 +34,21 @@ class ProductSetAd(models.TransientModel):
         for set_line in self.product_set_id.set_line_ids:
             sale_order_line.create(
                 self.prepare_sale_order_line_data(
-                    so_id, self.product_set_id, set_line,
-                    max_sequence=max_sequence))
+                    so_id,
+                    self.product_set_id,
+                    set_line,
+                    max_sequence=max_sequence,
+                )
+            )
 
-    def prepare_sale_order_line_data(self, sale_order_id, set, set_line,
-                                     max_sequence=0):
-        sale_line = self.env['sale.order.line'].new({
-            'order_id': sale_order_id,
-            'product_id': set_line.product_id.id,
-            'product_uom_qty': set_line.quantity * self.quantity,
-            'product_uom': set_line.product_id.uom_id.id,
-            'sequence': max_sequence + set_line.sequence,
-        })
-        sale_line.product_id_change()
-        line_values = sale_line._convert_to_write(sale_line._cache)
-        return line_values
+    @api.model
+    def prepare_sale_order_line_data(self, set_id):
+        product_set = self.env['product.set'].browse(set_id)
+        return [
+            {
+                "product_custom_attribute_values": [],
+                "product_id": 76,
+                "quantity": 1,
+                "variant_values": [4],
+            }
+        ]

@@ -10,12 +10,14 @@
     'website': 'https://github.com/OCA/sale-workflow',
     'summary': "Sale product set",
     'depends': [
-        'sale',
+        'sale', 'web'
     ],
     'data': [
+        'views/assets_backend.xml',
         'views/product_set.xml',
         'wizard/product_set_add.xml',
         'views/sale_order.xml',
+        'views/sale_order_line.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [
